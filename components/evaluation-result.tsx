@@ -351,11 +351,68 @@ export function EvaluationResult({ result, onReset }: EvaluationResultProps) {
 
       <Separator />
 
-      {/* Reset Button */}
-      <div className="flex justify-center">
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row justify-center gap-4">
         <Button onClick={onReset} variant="outline" size="lg" className="gap-2">
           <RotateCcw className="h-4 w-4" />
           Evaluate Another Idea
+        </Button>
+        <Button
+          onClick={() => {
+            const markdown = `
+# Startup Idea Evaluation: ${result.ideaSummary}
+
+## Overall Score: ${result.overallScore}/100
+
+## Recommendation
+${result.recommendation}
+
+## SWOT Analysis
+### Strengths
+${result.swot.strengths.map((s) => `- ${s}`).join("\n")}
+
+### Weaknesses
+${result.swot.weaknesses.map((w) => `- ${w}`).join("\n")}
+
+### Opportunities
+${result.swot.opportunities.map((o) => `- ${o}`).join("\n")}
+
+### Threats
+${result.swot.threats.map((t) => `- ${t}`).join("\n")}
+
+## Market Potential
+${result.marketPotential}
+
+## Profitability
+${result.profitability}
+
+## Competitors
+${result.competitors
+                .map((c) => `- ${c.name} (${c.similarity} Similarity): ${c.description}`)
+                .join("\n")}
+
+## Risks
+${result.risks.map((r) => `- ${r}`).join("\n")}
+
+## Next Steps
+${result.nextSteps.map((n) => `- ${n}`).join("\n")}
+            `;
+            const blob = new Blob([markdown], { type: "text/markdown" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "evaluation-report.md";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }}
+          variant="default"
+          size="lg"
+          className="gap-2"
+        >
+          <ArrowRight className="h-4 w-4" />
+          Download Report
         </Button>
       </div>
     </div>
