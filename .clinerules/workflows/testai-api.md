@@ -7,3 +7,4 @@
  *   industry?: string
  *   monetizationModel?: string
  * }
+2. Add the data of any startup idea into the place holders of request body. make sure you don't leave it black or add non meaningfull text
