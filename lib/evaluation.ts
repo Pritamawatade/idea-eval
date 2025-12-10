@@ -81,7 +81,7 @@ export async function evaluateStartupIdea(
 
     const result = completion.choices[0].message.parsed;
 
-    console.log(`resule = ${JSON.stringify(result)}`)
+
     if (!result) {
       throw new Error("Failed to parse evaluation result from LLM");
     }
