@@ -1,0 +1,22 @@
+# CodeRabbit Configuration File
+# This file configures the behavior of the CodeRabbit AI code reviewer.
+
+version: "0.1"
+
+reviews:
+  # Enable high-level summary of changes
+  high_level_summary: true
+  
+  # Enable detailed walkthrough of changes
+  poem: true
+  
+  # Enable automated reviews
+  auto_review:
+    enabled: true
+    
+  # Configure the AI model behavior
+  profile: "chill" # Options: assert, chill, formal
+  
+chat:
+  # Enable chat with the AI reviewer
+  auto_reply: true

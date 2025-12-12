@@ -17,6 +17,26 @@ A modern, AI-powered platform that evaluates startup ideas in seconds. Built wit
 - **Downloadable Reports**: Export the full evaluation as a Markdown file.
 - **Modern UI**: Clean, responsive interface built with Tailwind CSS and Shadcn UI.
 
+## 🚀 Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-username%2Fidea-eval)
+
+## 🤖 Workflow Automation with Kestra
+
+This project includes a [Kestra](https://kestra.io) workflow definition (`kestra-flow.yaml`) to automate the evaluation of startup ideas.
+
+To use it:
+1.  Install Kestra (e.g., via Docker).
+2.  Import the `kestra-flow.yaml` file into your Kestra instance.
+3.  Ensure your Next.js app is running (e.g., on port 3000).
+4.  Execute the workflow to trigger an evaluation.
+
+## 🐰 Code Review with CodeRabbit
+
+This project is configured for automated code reviews using [CodeRabbit](https://coderabbit.ai). The configuration file is located at `.coderabbit.yaml`.
+
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router)

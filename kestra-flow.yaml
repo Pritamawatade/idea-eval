@@ -1,0 +1,34 @@
+id: evaluate-startup-idea
+namespace: io.kestra.hackathon
+description: "A workflow to evaluate a startup idea using the Idea Eval API"
+
+inputs:
+  - id: ideaName
+    type: STRING
+    defaults: "EcoTrack"
+    description: "Name of the startup idea"
+    
+  - id: description
+    type: STRING
+    defaults: "A mobile app that tracks personal carbon footprint and suggests eco-friendly alternatives for daily activities."
+    description: "Description of the startup idea"
+
+tasks:
+  - id: evaluate_idea
+    type: io.kestra.plugin.core.http.Request
+    uri: "http://host.docker.internal:3000/api/evaluate" # Assumes Kestra is running in Docker and accessing host localhost
+    method: POST
+    contentType: application/json
+    body: |
+      {
+        "ideaName": "{{ inputs.ideaName }}",
+        "description": "{{ inputs.description }}"
+      }
+    timeout: PT2M
+
+  - id: log_result
+    type: io.kestra.plugin.core.log.Log
+    message: |
+      Evaluation Result for {{ inputs.ideaName }}:
+      Score: {{ outputs.evaluate_idea.body.data.overallScore }}
+      Recommendation: {{ outputs.evaluate_idea.body.data.recommendation }}
