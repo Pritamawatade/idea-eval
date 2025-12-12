@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -25,8 +26,10 @@ import {
   Sparkles,
   Shield,
   Rocket,
+  MessageSquare,
 } from "lucide-react";
 import type { EvaluationResult as EvaluationResultType } from "@/types/evaluation";
+import { ChatDialog } from "@/components/chat-dialog";
 
 interface EvaluationResultProps {
   result: EvaluationResultType;
@@ -34,6 +37,14 @@ interface EvaluationResultProps {
 }
 
 export function EvaluationResult({ result, onReset }: EvaluationResultProps) {
+  const [selectedStep, setSelectedStep] = useState<string | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleStepClick = (step: string) => {
+    setSelectedStep(step);
+    setIsChatOpen(true);
+  };
+
   const getScoreColor = (score: number): string => {
     if (score >= 80) return "text-green-600";
     if (score >= 65) return "text-yellow-600";
@@ -326,24 +337,25 @@ export function EvaluationResult({ result, onReset }: EvaluationResultProps) {
             Recommended Next Steps
           </CardTitle>
           <CardDescription>
-            Action items to move your idea forward
+            Click on a step to chat with AI and get detailed guidance
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {result.nextSteps.map((step, index) => (
-              <div
+              <button
                 key={index}
-                className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                onClick={() => handleStepClick(step)}
+                className="w-full text-left flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-all hover:shadow-sm group"
               >
-                <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-sm font-medium flex-shrink-0">
+                <div className="flex items-center justify-center h-6 w-6 rounded-full bg-primary text-primary-foreground text-sm font-medium flex-shrink-0 group-hover:scale-110 transition-transform">
                   {index + 1}
                 </div>
-                <div className="flex items-center gap-2">
-                  <ArrowRight className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">{step}</span>
+                <div className="flex-1 flex items-center justify-between gap-2">
+                  <span className="text-sm font-medium">{step}</span>
+                  <MessageSquare className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </CardContent>
@@ -415,6 +427,16 @@ ${result.nextSteps.map((n) => `- ${n}`).join("\n")}
           Download Report
         </Button>
       </div>
+
+      <ChatDialog
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        step={selectedStep || ""}
+        ideaContext={{
+          ideaName: "Startup Idea", // We might want to pass this from props if available in result
+          description: result.ideaSummary,
+        }}
+      />
     </div>
   );
 }
